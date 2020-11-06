@@ -36,7 +36,7 @@ def get_value(A, i, j):
         return None
 
 
-def solution(start:int = 0 , end:int = 1):
+def solution(start, end):
     # Generate the chessboard 2D list stars from 0 and continues 1,2,3...63
     A = [[0 for i in range(8)] for j in range(8)]
     counter = 0
@@ -71,9 +71,12 @@ def solution(start:int = 0 , end:int = 1):
         for value in adjacency_dict[key]:
             edges.append((key, value, 1))
 
-    return dijkstra(edges, start, end)[0]
-    #print(dijkstra(edges, 0, 1))
+    try:
+        return dijkstra(edges, start, end)[0]
+    except TypeError:
+        return -1
+    # print(dijkstra(edges, 0, 1))
 
 
 if __name__ == '__main__':
-    solution()
+    solution(1,0)
