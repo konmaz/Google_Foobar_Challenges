@@ -1,37 +1,28 @@
 # Don't Get Volunteered https://foobar.withgoogle.com/
-class Node():
-    def __init__(self, cord, ):
-        self._cord = cord
+# A class Node that represents a Vertex (node) in a graph.
+class Vertex:
+    def __init__(self, id: int, ) -> None:
+        self._id = id  # the id of the vertex
+        self._con_ver = []  # connected edges of the current vertex (a tuple)
 
-    def get_cord(self):
-        return self._cord
+    def get_id(self) -> int:
+        return self._id
 
-    def get_up(self):
-        if self.get_cord()%8:
-            return self.get_cord() - 8
-        return None
+    def add_node(self, vert_id) -> None:
+        self._con_ver.append(vert_id)
 
-    def get_down(self):
-        if Node.isCordNormal(self.get_cord()):
-            return self.get_cord() + 8;
-        return None
+    def get_edges(self) -> tuple: # returns the connected vertices
+        return tuple(self._con_ver)
 
-    def get_right(self):
-        if self.get_cord() % 8 == 1:  # It has right wall
-            return None
-        return self.get_cord()
-
-    @staticmethod
-    def isCordNormal(cord):  # Check if cord is an allowed cordinate
-        return 1 <= cord <= 64
+    #def get_cord(self) -> tuple: # returns the x,y coordinates
 
 
 def main():
     x = []
     for i in range(1, 65):
-        x.append(Node(i))
+        x.append(Vertex(i))
     for item in x:
-        print(item.get_cord(),item.get_up())
+        print(item.get_id(), item.get_edges())
 
 
 if __name__ == '__main__':
