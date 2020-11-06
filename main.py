@@ -74,7 +74,7 @@ def solution(start, end):
     try:
         return dijkstra(edges, start, end)[0]
     except TypeError:
-        return -1
+        return 0
     # print(dijkstra(edges, 0, 1))
 
 
