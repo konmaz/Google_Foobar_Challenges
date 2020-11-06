@@ -1,55 +1,51 @@
 # Don't Get Volunteered https://foobar.withgoogle.com/
-# A class Node that represents a Vertex (node) in a graph.
-class Vertex:
-    def __init__(self, id: int, ) -> None:
-        self._id = id  # the id of the vertex
-        self._con_ver = []  # connected edges of the current vertex (a tuple)
-
-    def get_id(self) -> int:
-        return self._id
-
-    def add_node(self, vert_id) -> None:
-        self._con_ver.append(vert_id)
-
-    def get_edges(self) -> tuple:  # returns the connected vertices
-        return tuple(self._con_ver)
-
-    # def get_cord(self) -> tuple: # returns the x,y coordinates
+def get_value(A, i, j):
+    if 0 > i < 8 or 0 > j < 8:
+        return None
+    try:
+        return A[i][j]
+    except IndexError:
+        return None
 
 
 def main():
-    # This is a precalculated dictionary that the keys are the nodes/vertices and the tuple is the connected nodes.
-    FIN = {1: (11, 18), 2: (12, 19, 17), 3: (13, 20, 18, 9), 4: (14, 21, 19, 10), 5: (15, 22, 20, 11),
-           6: (16, 23, 21, 12),
-           7: (24, 22, 13), 8: (23, 14), 9: (3, 19, 26), 10: (4, 20, 27, 25), 11: (5, 21, 28, 26, 17, 1),
-           12: (6, 22, 29, 27, 18, 2), 13: (7, 23, 30, 28, 19, 3), 14: (8, 24, 31, 29, 20, 4), 15: (32, 30, 21, 5),
-           16: (31, 22, 6), 17: (2, 11, 27, 34), 18: (1, 3, 12, 28, 35, 33), 19: (2, 4, 13, 29, 36, 34, 25, 9),
-           20: (3, 5, 14, 30, 37, 35, 26, 10), 21: (4, 6, 15, 31, 38, 36, 27, 11), 22: (5, 7, 16, 32, 39, 37, 28, 12),
-           23: (6, 8, 40, 38, 29, 13), 24: (7, 39, 30, 14), 25: (10, 19, 35, 42), 26: (9, 11, 20, 36, 43, 41),
-           27: (10, 12, 21, 37, 44, 42, 33, 17), 28: (11, 13, 22, 38, 45, 43, 34, 18),
-           29: (12, 14, 23, 39, 46, 44, 35, 19),
-           30: (13, 15, 24, 40, 47, 45, 36, 20), 31: (14, 16, 48, 46, 37, 21), 32: (15, 47, 38, 22),
-           33: (18, 27, 43, 50),
-           34: (17, 19, 28, 44, 51, 49), 35: (18, 20, 29, 45, 52, 50, 41, 25), 36: (19, 21, 30, 46, 53, 51, 42, 26),
-           37: (20, 22, 31, 47, 54, 52, 43, 27), 38: (21, 23, 32, 48, 55, 53, 44, 28), 39: (22, 24, 56, 54, 45, 29),
-           40: (23, 55, 46, 30), 41: (26, 35, 51, 58), 42: (25, 27, 36, 52, 59, 57),
-           43: (26, 28, 37, 53, 60, 58, 49, 33),
-           44: (27, 29, 38, 54, 61, 59, 50, 34), 45: (28, 30, 39, 55, 62, 60, 51, 35),
-           46: (29, 31, 40, 56, 63, 61, 52, 36),
-           47: (30, 32, 64, 62, 53, 37), 48: (31, 63, 54, 38), 49: (34, 43, 59), 50: (33, 35, 44, 60),
-           51: (34, 36, 45, 61, 57, 41), 52: (35, 37, 46, 62, 58, 42), 53: (36, 38, 47, 63, 59, 43),
-           54: (37, 39, 48, 64, 60, 44), 55: (38, 40, 61, 45), 56: (39, 62, 46), 57: (42, 51), 58: (41, 43, 52),
-           59: (42, 44, 53, 49), 60: (43, 45, 54, 50), 61: (44, 46, 55, 51), 62: (45, 47, 56, 52), 63: (46, 48, 53),
-           64: (47, 54)}
-    arr = [[0] * 65] * 65
-    for key in FIN:
-        for value in FIN[key]:
-            #arr[key][value] = 1
-            print(key,':',value)
+    # Generate the chessboard 2D list
+    A = [[0 for i in range(8)] for j in range(8)]
+    counter = 0
+    for i in range(0, 8):
+        for j in range(8):
+            A[i][j] = counter
+            counter += 1
+
+    # Generate the acceptable moves dictionary
+    acceptable_moves = {1: (-2, -1),
+                        2: (-2, 1),
+                        3: (-1, 2),
+                        4: (1, 2),
+                        5: (2, 1),
+                        6: (2, -1),
+                        7: (1, -2),
+                        8: (-1, -2)}
+    # Generate the Adjacency "List" (Actually Dictionary). key: node, values: nodes that are connected to the key-node
+    adjacency = {}
+
+    for i in range(len(A)):  # For every row in the chessboard 2D
+        for j in range(len(A[i])):  # For every collum in the chessboard 2D
+            temp = []
+            for item in acceptable_moves:  # For every acceptable move in the chessboard 2D
+                x = i + acceptable_moves[item][0]
+                y = j + acceptable_moves[item][1]
+                if get_value(A, x, y):
+                    temp.append(A[x][y])
+                    adjacency[get_value(A, i, j)] = tuple(temp)
+    print(adjacency)
+    '''
+    for i in range(len(arr)):
+        for j in range(len(arr[i])):
+            if arr[i][j]:
+                print(i + 1, ':', j + 1)
+    '''
 
 
-   # for i in range(len(arr)):
-        #for j in range(len(arr[i])):
-      #      print(i+1,':', j+1)
 if __name__ == '__main__':
     main()
